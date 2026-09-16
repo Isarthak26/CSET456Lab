@@ -65,13 +65,14 @@ def get_repository_inventory(repo_path):
         reverse=True
     )
 
-    largest_source_files = source_file_details[:5]
-
+    # Calculate average LOC per source file
     average_loc = (
         total_loc / source_files
         if source_files > 0
         else 0
     )
+
+    largest_source_files = source_file_details[:5]
 
     return {
         "repository_name": os.path.basename(repo_path),
@@ -87,6 +88,7 @@ def get_repository_inventory(repo_path):
 
 
 if __name__ == "__main__":
+
     repo_path = os.path.expanduser(
         "~/repository_mining/requests"
     )
