@@ -11776,6 +11776,7 @@ requests,0708736c4594c41136dd163a29b5a7060a6723d8,Kenneth Reitz,2011-08-17 09:45
 requests,61d50d531cca57061335c776148c55d452ef5c3e,Kenneth Reitz,2011-08-17 09:41:24 -0400,Authors += Armin,1,1,0
 requests,a17110b32a000dabb8c084eb9bf486c6fdccdcb6,Jérémy Bethmont,2011-08-17 15:32:11 +0200,Merge remote-tracking branch 'upstream/develop' into develop,0,0,0
 requests,571d808d25d3391664a69920d4e0a5cb1418af90,Jérémy Bethmont,2011-08-17 15:31:24 +0200,Fixed bad merge.,1,2,1
+requests,5e6ecdad9f69b1ff789a17733b8edc6fd7091bd8,Shrikant Sharat Kandula,2011-09-08 02:38:50 +51800,Typo in documentation,1,1,1
 requests,91e75f721508d2198ccb3d4e2979047249ae01f4,Armin Ronacher,2011-08-17 13:40:29 +0300,As proposed by @davidbgk this is only consistent with \o/ :),1,3,3
 requests,81d599786ac5ed87dd3f7f0538e71e57682381b0,Kenneth Reitz,2011-08-17 04:33:34 -0400,Merge branch 'develop',0,0,0
 requests,9471b0ab889a4684f87952cb951f7f4dc3f59dda,Kenneth Reitz,2011-08-17 04:32:46 -0400,let's do this,2,6,6
