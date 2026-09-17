@@ -1,0 +1,6 @@
+repository,total_commits,total_files_changed,total_insertions,total_deletions,avg_files_changed_per_commit,avg_insertions_per_commit,avg_deletions_per_commit
+flask,5598,9364,119425,81641,1.67,21.33,14.58
+requests,6734,8413,166659,136771,1.25,24.75,20.31
+pytest,19050,47698,679187,488471,2.5,35.65,25.64
+fastapi,7811,32505,832341,433709,4.16,106.56,55.53
+scikit-learn,38733,103384,4020694,3395463,2.67,103.81,87.66

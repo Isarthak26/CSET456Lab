@@ -1,47 +1,98 @@
-import os
 import csv
+import os
+
 from repositories import REPOSITORIES
 
-REPO_DIR = os.path.expanduser("~/repository_mining/lab2_repositories")
-OUTPUT_FILE = "data/source_code_raw.csv"
 
-os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+BASE_DIR = "lab2_repositories"
+OUTPUT_FILE = "lab2/data/source_code_raw.csv"
 
-records = []
+SOURCE_EXTENSIONS = {
+    ".py": "Python",
+    ".js": "JavaScript",
+    ".jsx": "JavaScript",
+    ".java": "Java",
+    ".cpp": "C++",
+    ".c": "C",
+    ".h": "C/C++",
+    ".hpp": "C++",
+}
+
+
+def count_loc(file_path):
+    try:
+        with open(
+            file_path,
+            "r",
+            encoding="utf-8",
+            errors="ignore"
+        ) as f:
+            return sum(1 for line in f if line.strip())
+
+    except Exception:
+        return 0
+
+
+rows = []
+
 
 for repo_url in REPOSITORIES:
+
+    # Extract repository name from GitHub URL
     repo_name = repo_url.rstrip("/").split("/")[-1]
-    repo_path = os.path.join(REPO_DIR, repo_name)
 
-    print(f"Mining {repo_name}...")
+    # Local repository directory
+    repo_path = os.path.join(BASE_DIR, repo_name)
 
-    for root, dirs, files in os.walk(repo_path):
-        if ".git" in dirs:
-            dirs.remove(".git")
+    if not os.path.exists(repo_path):
+        print(f"Repository not found: {repo_name}")
+        continue
 
-        for file in files:
-            if not file.endswith(".py"):
+    print(f"Mining: {repo_name}")
+
+    for root, _, files in os.walk(repo_path):
+
+        for file_name in files:
+
+            extension = os.path.splitext(file_name)[1].lower()
+
+            # Ignore non-source files
+            if extension not in SOURCE_EXTENSIONS:
                 continue
 
-            file_path = os.path.join(root, file)
+            file_path = os.path.join(root, file_name)
 
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    lines = f.readlines()
+            relative_path = os.path.relpath(
+                file_path,
+                repo_path
+            )
 
-                records.append({
-                    "repository": repo_name,
-                    "file_path": os.path.relpath(file_path, repo_path),
-                    "language": "Python",
-                    "extension": ".py",
-                    "loc": len(lines),
-                    "size_bytes": os.path.getsize(file_path)
-                })
+            loc = count_loc(file_path)
 
-            except (UnicodeDecodeError, OSError):
-                continue
+            size_bytes = os.path.getsize(file_path)
 
-with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
+            rows.append({
+                "repository": repo_name,
+                "file_path": relative_path,
+                "language": SOURCE_EXTENSIONS[extension],
+                "extension": extension,
+                "loc": loc,
+                "size_bytes": size_bytes
+            })
+
+
+# Create data directory if it does not exist
+os.makedirs("lab2/data", exist_ok=True)
+
+
+# Write CSV
+with open(
+    OUTPUT_FILE,
+    "w",
+    newline="",
+    encoding="utf-8"
+) as f:
+
     writer = csv.DictWriter(
         f,
         fieldnames=[
@@ -55,7 +106,9 @@ with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
     )
 
     writer.writeheader()
-    writer.writerows(records)
+    writer.writerows(rows)
 
-print(f"\nSource-code dataset created: {OUTPUT_FILE}")
-print(f"Total source files: {len(records)}")
+
+print("\nSource-code mining completed.")
+print(f"Total source files: {len(rows)}")
+print(f"Saved to: {OUTPUT_FILE}")
