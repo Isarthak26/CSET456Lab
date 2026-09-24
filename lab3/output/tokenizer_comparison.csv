@@ -1,0 +1,4 @@
+tokenizer,vocab_size,average_sequence_length,embedding_dim,embedding_matrix_shape,embedding_parameters,approx_embedding_memory_mb
+Character,296,10677.661683041435,100,"(296, 100)",29600,0.1129150390625
+Word,71515,2255.526697992311,100,"(71515, 100)",7151500,27.280807495117188
+Subword,10000,2170.1315677061084,100,"(10000, 100)",1000000,3.814697265625
