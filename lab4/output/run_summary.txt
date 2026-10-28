@@ -1,0 +1,68 @@
+===== select_tokens.py =====
+Saved 20 tokens to /Users/sarthakbordia/devops lab/CSET456Lab/lab4/data/selected_20_tokens.csv
+       manual: 'self'
+       manual: 'def'
+       manual: 'None'
+       manual: 'is'
+       manual: 'in'
+       manual: 'assert'
+       manual: 'for'
+       manual: 'if'
+       manual: 'import'
+       manual: 'return'
+seeded_random: '0'
+seeded_random: ','
+seeded_random: '):'
+seeded_random: 'X'
+seeded_random: '['
+seeded_random: 'the'
+seeded_random: ':'
+seeded_random: ')'
+seeded_random: '=='
+seeded_random: "'"
+
+===== feature_embedding.py =====
+
+Lexical-feature hashing - top 5 most similar pairs
+1. 'is' <-> 'in': 0.585369
+2. '):' <-> '==': 0.503953
+3. ',' <-> ')': 0.500000
+4. 'X' <-> 'the': 0.447214
+5. ',' <-> '[': 0.433013
+
+===== cooccurrence_embedding.py =====
+Processed 1,000,000 BPE tokens in 216 files.
+
+PPMI-SVD co-occurrence - top 5 most similar pairs
+1. 'in' <-> 'for': 0.802313
+2. 'assert' <-> '==': 0.801418
+3. '0' <-> '[': 0.716204
+4. 'self' <-> 'return': 0.593322
+5. 'self' <-> '):': 0.584597
+
+===== word2vec_embedding.py =====
+Word2Vec epoch 1/3: mean loss=2.424343
+Word2Vec epoch 2/3: mean loss=2.157033
+Word2Vec epoch 3/3: mean loss=2.113131
+Trained on 300,000 positive pairs from 750,000 tokens; vocabulary=300.
+
+Word2Vec SGNS - top 5 most similar pairs
+1. 'def' <-> 'return': 0.697929
+2. 'if' <-> 'return': 0.619792
+3. 'assert' <-> 'return': 0.614233
+4. 'assert' <-> 'if': 0.589515
+5. 'def' <-> 'assert': 0.584053
+
+===== code2vec_embedding.py =====
+Code2Vec epoch 1/4: mean loss=3.299758
+Code2Vec epoch 2/4: mean loss=2.326831
+Code2Vec epoch 3/4: mean loss=2.142166
+Code2Vec epoch 4/4: mean loss=2.034973
+Parsed 16 Python files into 350 functions and 23,880 path contexts.
+
+Code2Vec - top 5 similar function pairs
+1. scikit-learn:sklearn/conftest.py:hide_available_pandas:493 <-> scikit-learn:sklearn/conftest.py:hide_available_matplotlib:506: 1.000000
+2. scikit-learn:sklearn/multioutput.py:_available_if_estimator_has:82 <-> scikit-learn:sklearn/multioutput.py:_available_if_base_estimator_has:621: 1.000000
+3. scikit-learn:sklearn/isotonic.py:__sklearn_tags__:511 <-> scikit-learn:sklearn/calibration.py:__sklearn_tags__:1210: 1.000000
+4. scikit-learn:sklearn/pipeline.py:get_params:258 <-> scikit-learn:sklearn/pipeline.py:get_params:1775: 1.000000
+5. scikit-learn:sklearn/pipeline.py:set_params:277 <-> scikit-learn:sklearn/pipeline.py:set_params:1795: 1.000000
