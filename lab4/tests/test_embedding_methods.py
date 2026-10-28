@@ -21,6 +21,12 @@ from word2vec_embedding import (  # noqa: E402
     make_skipgram_pairs,
     train_skipgram_negative_sampling,
 )
+from code2vec_embedding import (  # noqa: E402
+    extract_functions_from_source,
+    pool_function_embeddings,
+    train_code2vec,
+    vectorize_examples,
+)
 
 
 class TokenSelectionTests(unittest.TestCase):
@@ -84,6 +90,46 @@ class Word2VecTests(unittest.TestCase):
         self.assertEqual(embeddings.shape, (4, 8))
         self.assertEqual(len(losses), 1)
         self.assertTrue(np.isfinite(embeddings).all())
+
+
+class Code2VecTests(unittest.TestCase):
+    def test_extract_train_and_pool_tiny_program(self) -> None:
+        source = """
+def add(left, right):
+    return left + right
+
+def multiply(left, right):
+    result = left * right
+    return result
+"""
+        examples = extract_functions_from_source("demo", "maths.py", source)
+        self.assertEqual([example.method_name for example in examples], ["add", "multiply"])
+        metadata, starts, paths, ends, targets, functions = vectorize_examples(examples)
+        terminal_embeddings, path_embeddings, _, losses = train_code2vec(
+            starts,
+            paths,
+            ends,
+            targets,
+            terminal_count=len(metadata["terminal_vocab"]),
+            path_count=len(metadata["path_vocab"]),
+            target_count=len(metadata["target_vocab"]),
+            dimension=8,
+            negative_samples=2,
+            epochs=1,
+            batch_size=16,
+        )
+        pooled = pool_function_embeddings(
+            starts,
+            paths,
+            ends,
+            functions,
+            terminal_embeddings,
+            path_embeddings,
+            len(examples),
+        )
+        self.assertEqual(pooled.shape, (2, 8))
+        self.assertEqual(len(losses), 1)
+        self.assertTrue(np.isfinite(pooled).all())
 
 
 if __name__ == "__main__":
