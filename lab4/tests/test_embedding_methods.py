@@ -16,6 +16,11 @@ from common import cosine_similarity, rank_pairs  # noqa: E402
 from cooccurrence_embedding import ppmi_svd_embeddings  # noqa: E402
 from feature_embedding import embed_token, generate_embeddings  # noqa: E402
 from select_tokens import select_tokens  # noqa: E402
+from word2vec_embedding import (  # noqa: E402
+    build_vocabulary,
+    make_skipgram_pairs,
+    train_skipgram_negative_sampling,
+)
 
 
 class TokenSelectionTests(unittest.TestCase):
@@ -54,6 +59,30 @@ class SimilarityTests(unittest.TestCase):
         )
         embeddings = ppmi_svd_embeddings(counts, dimension=2)
         self.assertEqual(embeddings.shape, (3, 2))
+        self.assertTrue(np.isfinite(embeddings).all())
+
+
+class Word2VecTests(unittest.TestCase):
+    def test_tiny_skipgram_training(self) -> None:
+        sequences = [["for", "item", "in", "items"]] * 8
+        vocabulary, frequencies = build_vocabulary(
+            sequences, ["for", "in"], vocab_size=4
+        )
+        token_to_index = {token: index for index, token in enumerate(vocabulary)}
+        centers, contexts = make_skipgram_pairs(
+            sequences, token_to_index, window_size=1, max_pairs=100
+        )
+        embeddings, losses = train_skipgram_negative_sampling(
+            centers,
+            contexts,
+            frequencies,
+            dimension=8,
+            negative_samples=2,
+            epochs=1,
+            batch_size=16,
+        )
+        self.assertEqual(embeddings.shape, (4, 8))
+        self.assertEqual(len(losses), 1)
         self.assertTrue(np.isfinite(embeddings).all())
 
 
