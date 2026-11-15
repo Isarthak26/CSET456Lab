@@ -1,0 +1,7 @@
+{
+  "transformer_to_lstm_parameter_ratio": 17.010118011145714,
+  "transformer_to_lstm_training_time_ratio": 3.746341293562639,
+  "transformer_to_lstm_inference_time_ratio": 12.76217776919138,
+  "transformer_minus_lstm_accuracy": 0.0035799522673031214,
+  "transformer_minus_lstm_f1": 0.01602707883039034
+}
