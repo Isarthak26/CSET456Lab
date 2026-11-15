@@ -1,0 +1,3 @@
+architecture,hidden_layers,total_hidden_nodes,parameters,target_validation_accuracy,epoch_to_target,seconds_to_target,training_seconds,final_validation_accuracy,test_loss,test_accuracy,gradient_check_max_relative_error
+single_hidden_layer,30,30,121,0.9,9,0.006247,0.204242,0.977778,0.043674,0.977778,8.783e-10
+three_hidden_layers,10-10-10,30,261,0.9,6,0.008121,0.333172,0.983333,0.041823,0.983333,8.783e-10
