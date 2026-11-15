@@ -41,10 +41,33 @@ Accuracy is reported together with precision, recall and F1 because the classes
 are imbalanced. Parameter count, training time and per-message inference time
 are saved for the direct transformer comparison in Lab 8.
 
-## Expected observation
+## Result on this machine
+
+The best checkpoint was selected by validation F1 and evaluated once on 838
+held-out messages.
+
+| Measure | LSTM result |
+|---|---:|
+| Test accuracy | 98.21% |
+| Test precision | 97.12% |
+| Test recall | 89.38% |
+| Test F1 | 93.09% |
+| Parameters | 257,857 |
+| CPU training time | 4.00 s |
+| CPU inference time/message | 0.019 ms |
+
+The test confusion matrix contains 101 true-positive, 722 true-negative, 3
+false-positive and 12 false-negative messages. Timings are machine-dependent.
+
+## Observation
 
 The LSTM reads tokens in order and is much smaller than a pretrained language
 model. It should learn spam indicators such as prizes, calls and numbers, but it
 starts with random embeddings and must learn language patterns only from this
 small data set. Consequently, it is computationally light but may miss unusual
 phrasing that a pretrained transformer already understands.
+
+The measured result supports the efficiency part of that expectation. Recall is
+lower than precision, showing that the main remaining error is missed spam. Lab
+8 checks whether transfer learning improves this trade-off and how much extra
+computation it requires.
